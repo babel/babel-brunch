@@ -1,0 +1,29 @@
+{
+  "name": "6to5-brunch",
+  "version": "0.0.0",
+  "description": "Brunch plugin to turn ES6 code into vanilla ES5 with no runtime required.",
+  "author": "Elan Shanker",
+  "homepage": "https://github.com/es128/6to5-brunch",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/es128/6to5-brunch.git"
+  },
+  "keywords": [
+    "brunch",
+    "brunch-plugin",
+    "brunch-compiler",
+    "js",
+    "es6",
+    "es5",
+    "6to5"
+  ],
+  "scripts": {
+    "test": "mocha"
+  },
+  "dependencies": {
+    "6to5": "https://github.com/sebmck/6to5/tarball/a2f2811200ba1fb7751dd8b1cb7bd5d1f0d1c4ec"
+  },
+  "devDependencies": {
+    "mocha": "1.x"
+  }
+}
