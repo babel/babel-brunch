@@ -9,7 +9,7 @@ function ES6to5Compiler(config) {
     if (key === 'sourceMap') return;
     _this.options[key] = options[key];
   });
-  this.options.sourceMapObject = !!config.sourceMaps;
+  this.options.sourceMaps = !!config.sourceMaps;
 }
 
 ES6to5Compiler.prototype.brunchPlugin = true;
@@ -24,17 +24,7 @@ ES6to5Compiler.prototype.compile = function (params, callback) {
   } catch (err) {
     return callback(err);
   }
-  if (this.options.sourceMap) {
-    lines = compiled.code.split('\n');
-    mapComment = lines.splice(-2, 1)[0];
-    if (mapComment.slice(0, 26) === '//# sourceMappingURL=data:') {
-      compiled = lines.join('\n');
-      map = (new Buffer(mapComment.slice(50), 'base64').toString());
-    }
-  } else {
-    compiled = {code: compiled};
-  }
-  return callback(null, {data: compiled.code, map: compiled.map});
+  return callback(null, {data: compiled.code, map: compiled.map && compiled.map.toJSON()});
 };
 
 module.exports = ES6to5Compiler;
