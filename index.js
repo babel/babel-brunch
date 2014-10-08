@@ -20,7 +20,7 @@ ES6to5Compiler.prototype.extension = 'js';
 
 ES6to5Compiler.prototype.compile = function (params, callback) {
   this.options.filename = params.path;
-  var compiled, lines, mapComment, map;
+  var compiled;
   try {
     compiled = to5.transform(params.data, this.options);
   } catch (err) {
