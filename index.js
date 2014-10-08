@@ -26,7 +26,10 @@ ES6to5Compiler.prototype.compile = function (params, callback) {
   } catch (err) {
     return callback(err);
   }
-  callback(null, {data: compiled.code, map: compiled.map && compiled.map.toJSON()});
+  callback(null, {
+    data: compiled.code || compiled,
+    map: !!compiled.map && compiled.map.toJSON()
+  });
 };
 
 module.exports = ES6to5Compiler;
