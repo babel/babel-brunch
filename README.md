@@ -23,6 +23,10 @@ plugins:
 			semicolons: false
 ```
 
+Change Log
+----------
+[See release notes page on GitHub](https://github.com/es128/6to5-brunch/releases)
+
 License
 -------
 [ISC](https://raw.github.com/es128/6to5-brunch/master/LICENSE)
