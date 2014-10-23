@@ -1,3 +1,6 @@
+/* jshint mocha:true */
+'use strict';
+
 var assert = require('assert');
 var Plugin = require('./');
 
@@ -17,12 +20,12 @@ describe('Plugin', function() {
   });
 
   it('should compile and produce valid result', function(done) {
-    var content = 'let a = 1';
-    var expected = '(function () {\n  var a = 1;\n}());';
+    var content = 'var {a, b} = c;';
+    var expected = 'var a = c.a;\nvar b = c.b;';
 
     plugin.compile({data: content, path: 'file.js'}, function(error, result) {
       assert(!error);
-      assert.equal(result.data.trim(), expected);
+      assert(result.data.indexOf(expected) !== -1);
       done();
     });
   });
@@ -31,12 +34,10 @@ describe('Plugin', function() {
     plugin = new Plugin({sourceMaps: true});
 
     var content = 'let a = 1';
-    var expected = '(function () {\n  var a = 1;\n}());';
 
     plugin.compile({data: content, path: 'file.js'}, function(error, result) {
       assert(!error);
-      assert.equal(result.data.trim(), expected);
-      assert.doesNotThrow(function(){JSON.parse(result.map)});
+      assert.doesNotThrow(function(){JSON.parse(result.map);});
       done();
     });
   });
