@@ -11,7 +11,7 @@ function ES6to5Compiler(config) {
     if (key === 'sourceMap') { return; }
     _this.options[key] = options[key];
   });
-  this.options.sourceMaps = !!config.sourceMaps;
+  this.options.sourceMap = !!config.sourceMaps;
 }
 
 ES6to5Compiler.prototype.brunchPlugin = true;
@@ -27,7 +27,7 @@ ES6to5Compiler.prototype.compile = function (params, callback) {
     return callback(err);
   }
   var result = {data: compiled.code || compiled};
-  if (compiled.map) { result.map = compiled.map.toJSON(); }
+  if (compiled.map) { result.map = JSON.stringify(compiled.map); }
   callback(null, result);
 };
 
