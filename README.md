@@ -3,7 +3,8 @@
 Brunch plugin using [6to5](https://github.com/sebmck/6to5) to turn ES6 code
 into vanilla ES5 with no runtime required.
 
-All the `.js` files in your project will be run through the 6to5 compiler.
+All the `.js` files in your project will be run through the 6to5 compiler,
+except those it is configured to ignore.
 
 Installation
 ------------
@@ -12,8 +13,12 @@ Installation
 Configuration
 -------------
 Set [6to5 options](https://github.com/sebmck/6to5#options) in your brunch
-config (such as `brunch-config.coffee`) exceptfor `filename` and `sourceMap`
+config (such as `brunch-config.coffee`) except for `filename` and `sourceMap`
 which are handled internally.
+
+Additionally, you can set an `ignore` value to specify which `.js` files in
+your project should not be compiled by 6to5. By default, `ignore` is set to
+`/^(bower_components|vendor)/`.
 
 ```coffee
 plugins:
@@ -21,6 +26,10 @@ plugins:
 		whitelist: ['arrowFunctions']
 		format:
 			semicolons: false
+		ignore: [
+			/^(bower_components|vendor)/
+			'app/legacyES5Code/**/*'
+		]
 ```
 
 Change Log
