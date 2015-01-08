@@ -1,6 +1,6 @@
 {
   "name": "6to5-brunch",
-  "version": "2.0.0",
+  "version": "2.1.0",
   "description": "Brunch plugin to turn ES6 code into vanilla ES5 with no runtime required.",
   "author": "Elan Shanker",
   "homepage": "https://github.com/es128/6to5-brunch",
