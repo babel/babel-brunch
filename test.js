@@ -41,4 +41,14 @@ describe('Plugin', function() {
       done();
     });
   });
+
+  it('should pass through content of ignored paths', function(done) {
+    var content = 'asdf';
+
+     plugin.compile({data: content, path: 'vendor/file.js'}, function(error, result) {
+      assert(!error);
+      assert.equal(content, result.data);
+      done();
+    });
+  });
 });
