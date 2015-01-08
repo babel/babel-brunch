@@ -3,14 +3,13 @@
 var to5 = require('6to5');
 
 function ES6to5Compiler(config) {
-  if (config == null) { config = {}; }
+  if (!config) config = {};
   var options = config.plugins && config.plugins.ES6to5 || {};
-  var _this = this;
   this.options = {};
-  Object.keys(options).forEach(function (key) {
-    if (key === 'sourceMap') { return; }
-    _this.options[key] = options[key];
-  });
+  Object.keys(options).forEach(function(key) {
+    if (key === 'sourceMap') return;
+    this.options[key] = options[key];
+  }, this);
   this.options.sourceMap = !!config.sourceMaps;
 }
 
@@ -27,7 +26,7 @@ ES6to5Compiler.prototype.compile = function (params, callback) {
     return callback(err);
   }
   var result = {data: compiled.code || compiled};
-  if (compiled.map) { result.map = JSON.stringify(compiled.map); }
+  if (compiled.map) result.map = JSON.stringify(compiled.map);
   callback(null, result);
 };
 
