@@ -1,6 +1,6 @@
 'use strict';
 
-var to5 = require('6to5');
+var to5 = require('6to5-core');
 var anymatch = require('anymatch');
 
 function ES6to5Compiler(config) {
