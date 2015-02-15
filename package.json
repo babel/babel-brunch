@@ -1,12 +1,12 @@
 {
-  "name": "6to5-brunch",
+  "name": "babel-brunch",
   "version": "3.0.0",
   "description": "Brunch plugin to turn ES6 code into vanilla ES5 with no runtime required.",
   "author": "Elan Shanker",
-  "homepage": "https://github.com/es128/6to5-brunch",
+  "homepage": "https://github.com/babel/babel-brunch",
   "repository": {
     "type": "git",
-    "url": "https://github.com/es128/6to5-brunch.git"
+    "url": "https://github.com/babel/babel-brunch.git"
   },
   "keywords": [
     "brunch",
@@ -21,7 +21,7 @@
     "test": "mocha"
   },
   "dependencies": {
-    "6to5-core": "^3.0.0",
+    "babel-core": "^4.0.0",
     "anymatch": "^1.0.0"
   },
   "devDependencies": {

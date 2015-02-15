@@ -1,6 +1,6 @@
 'use strict';
 
-var to5 = require('6to5-core');
+var babel = require('babel-core');
 var anymatch = require('anymatch');
 
 function ES6to5Compiler(config) {
@@ -24,7 +24,7 @@ ES6to5Compiler.prototype.compile = function (params, callback) {
   this.options.filename = params.path;
   var compiled;
   try {
-    compiled = to5.transform(params.data, this.options);
+    compiled = babel.transform(params.data, this.options);
   } catch (err) {
     return callback(err);
   }

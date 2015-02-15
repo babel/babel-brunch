@@ -1,23 +1,23 @@
-6to5-brunch
+babel-brunch
 ===========
-Brunch plugin using [6to5](https://github.com/sebmck/6to5) to turn ES6 code
+Brunch plugin using [babel](https://github.com/babel/babel) to turn ES6 code
 into vanilla ES5 with no runtime required.
 
-All the `.js` files in your project will be run through the 6to5 compiler,
+All the `.js` files in your project will be run through the babel compiler,
 except those it is configured to ignore.
 
 Installation
 ------------
-`npm install --save 6to5-brunch`
+`npm install --save babel-brunch`
 
 Configuration
 -------------
-Set [6to5 options](https://github.com/sebmck/6to5#options) in your brunch
+Set [babel options](https://babeljs.io/docs/usage/options) in your brunch
 config (such as `brunch-config.coffee`) except for `filename` and `sourceMap`
 which are handled internally.
 
 Additionally, you can set an `ignore` value to specify which `.js` files in
-your project should not be compiled by 6to5. By default, `ignore` is set to
+your project should not be compiled by babel. By default, `ignore` is set to
 `/^(bower_components|vendor)/`.
 
 ```coffee
@@ -34,8 +34,8 @@ plugins:
 
 Change Log
 ----------
-[See release notes page on GitHub](https://github.com/es128/6to5-brunch/releases)
+[See release notes page on GitHub](https://github.com/babel/babel-brunch/releases)
 
 License
 -------
-[ISC](https://raw.github.com/es128/6to5-brunch/master/LICENSE)
+[ISC](https://raw.github.com/babel/babel-brunch/master/LICENSE)
