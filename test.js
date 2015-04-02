@@ -20,7 +20,7 @@ describe('Plugin', function() {
   });
 
   it('should compile and produce valid result', function(done) {
-    var content = 'var {a, b} = c;';
+    var content = 'var c = {};\nvar {a, b} = c;';
     var expected = 'var a = c.a;\nvar b = c.b;';
 
     plugin.compile({data: content, path: 'file.js'}, function(error, result) {
