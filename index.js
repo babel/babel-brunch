@@ -31,7 +31,7 @@ ES6to5Compiler.prototype.compile = function (params, callback) {
   var result = {data: compiled.code || compiled};
 
   // Concatenation is broken by trailing comments in files, which occur
-  // frequently when comment nodes are lost in the AST from 6to5.
+  // frequently when comment nodes are lost in the AST from babel.
   result.data += '\n';
 
   if (compiled.map) result.map = JSON.stringify(compiled.map);
