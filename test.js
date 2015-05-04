@@ -42,7 +42,7 @@ describe('Plugin', function() {
     var content = 'let a = 1';
     var path = 'file.es6'
 
-    it('should handle basic compilationcustom file extensions', function(done) {
+    it('should handle custom file extensions', function(done) {
       basicPlugin.compile({data: content, path: path}, function(error, result) {
         assert(!error);
         done();
