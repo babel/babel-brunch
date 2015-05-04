@@ -3,9 +3,10 @@
 var babel = require('babel-core');
 var anymatch = require('anymatch');
 
-function ES6to5Compiler(config) {
+function BabelCompiler(config) {
   if (!config) config = {};
-  var options = config.plugins && config.plugins.ES6to5 || {};
+  var options = config.plugins && config.plugins.babel
+                               || config.plugins.ES6to5 || {};
   this.options = {};
   Object.keys(options).forEach(function(key) {
     if (key === 'sourceMap' || key === 'ignore') return;
@@ -18,11 +19,11 @@ function ES6to5Compiler(config) {
   }
 }
 
-ES6to5Compiler.prototype.brunchPlugin = true;
-ES6to5Compiler.prototype.type = 'javascript';
-ES6to5Compiler.prototype.extension = 'js';
+BabelCompiler.prototype.brunchPlugin = true;
+BabelCompiler.prototype.type = 'javascript';
+BabelCompiler.prototype.extension = 'js';
 
-ES6to5Compiler.prototype.compile = function (params, callback) {
+BabelCompiler.prototype.compile = function (params, callback) {
   if (this.isIgnored(params.path)) return callback(null, params);
   this.options.filename = params.path;
   var compiled;
@@ -41,4 +42,4 @@ ES6to5Compiler.prototype.compile = function (params, callback) {
   callback(null, result);
 };
 
-module.exports = ES6to5Compiler;
+module.exports = BabelCompiler;
