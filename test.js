@@ -30,6 +30,37 @@ describe('Plugin', function() {
     });
   });
 
+  describe('custom file extensions & patterns', function() {
+
+    var basicPlugin = new Plugin({
+      pattern: /\.(babel|es6|jsx)$/
+    });
+    var sourceMapPlugin = new Plugin({
+      pattern: /\.(babel|es6|jsx)$/,
+      sourceMaps: true
+    });
+    var content = 'let a = 1';
+    var path = 'file.es6'
+
+    it('should handle basic compilationcustom file extensions', function(done) {
+      basicPlugin.compile({data: content, path: path}, function(error, result) {
+        assert(!error);
+        done();
+      });
+    });
+
+    it('should properly link to source file in source maps', function(done) {
+      sourceMapPlugin.compile({data: content, path: path}, function(error, result) {
+        assert(!error);
+        assert.doesNotThrow(function(){JSON.parse(result.map);});
+        assert.equal(JSON.parse(result.map).sources.indexOf(path) !== -1, true);
+        done();
+      })
+    })
+
+  });
+
+
   it('should produce source maps', function(done) {
     plugin = new Plugin({sourceMaps: true});
 

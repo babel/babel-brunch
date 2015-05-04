@@ -13,6 +13,9 @@ function ES6to5Compiler(config) {
   }, this);
   this.options.sourceMap = !!config.sourceMaps;
   this.isIgnored = anymatch(options.ignore || /^(bower_components|vendor)/);
+  if (this.options.pattern) {
+    this.pattern = this.options.pattern;
+  }
 }
 
 ES6to5Compiler.prototype.brunchPlugin = true;
