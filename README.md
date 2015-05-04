@@ -22,7 +22,7 @@ your project should not be compiled by babel. By default, `ignore` is set to
 
 ```coffee
 plugins:
-	ES6to5:
+	babel:
 		whitelist: ['arrowFunctions']
 		format:
 			semicolons: false
