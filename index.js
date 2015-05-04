@@ -5,8 +5,8 @@ var anymatch = require('anymatch');
 
 function BabelCompiler(config) {
   if (!config) config = {};
-  var options = config.plugins && config.plugins.babel
-                               || config.plugins.ES6to5 || {};
+  var options = config.plugins && 
+    (config.plugins.babel || config.plugins.ES6to5) || {};
   this.options = {};
   Object.keys(options).forEach(function(key) {
     if (key === 'sourceMap' || key === 'ignore') return;
