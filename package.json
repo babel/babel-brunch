@@ -9,6 +9,7 @@
     "url": "https://github.com/babel/babel-brunch.git"
   },
   "keywords": [
+    "babel",
     "brunch",
     "brunch-plugin",
     "brunch-compiler",
