@@ -33,11 +33,19 @@ describe('Plugin', function() {
   describe('custom file extensions & patterns', function() {
 
     var basicPlugin = new Plugin({
-      pattern: /\.(babel|es6|jsx)$/
+      plugins: {
+        babel: {
+          pattern: /\.(babel|es6|jsx)$/
+        }
+      }
     });
     var sourceMapPlugin = new Plugin({
-      pattern: /\.(babel|es6|jsx)$/,
-      sourceMaps: true
+      plugins: {
+        babel: {
+          pattern: /\.(babel|es6|jsx)$/,
+          sourceMaps: true
+        }
+      }
     });
     var content = 'let a = 1';
     var path = 'file.es6'
