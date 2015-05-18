@@ -5,7 +5,7 @@ var anymatch = require('anymatch');
 
 function BabelCompiler(config) {
   if (!config) config = {};
-  var options = config.plugins && 
+  var options = config.plugins &&
     (config.plugins.babel || config.plugins.ES6to5) || {};
   this.options = {};
   Object.keys(options).forEach(function(key) {
@@ -16,6 +16,7 @@ function BabelCompiler(config) {
   this.isIgnored = anymatch(options.ignore || /^(bower_components|vendor)/);
   if (this.options.pattern) {
     this.pattern = this.options.pattern;
+    delete this.options.pattern;
   }
 }
 
