@@ -26,7 +26,7 @@ compiling every `.js` file.
 
 ```coffee
 plugins:
-	babel:
+	ESbabel:
 		whitelist: ['arrowFunctions']
 		format:
 			semicolons: false
