@@ -6,6 +6,7 @@ var Plugin = require('./');
 
 describe('Plugin', function() {
   var plugin;
+  this.timeout(10000);
 
   beforeEach(function() {
     plugin = new Plugin({});
@@ -19,6 +20,17 @@ describe('Plugin', function() {
     assert.equal(typeof plugin.compile, 'function');
   });
 
+  it('should do nothing for no preset', function (done) {
+    var content = 'var c = {};\nvar { a, b } = c;';
+
+    plugin = new Plugin({ plugins: { babel: { presets: [] }}});
+    plugin.compile({data: content, path: 'file.js'}, function (error, result) {
+      assert(!error);
+      assert(result.data.indexOf(content) !== -1);
+      done();
+    });
+  });
+
   it('should compile and produce valid result', function(done) {
     var content = 'var c = {};\nvar {a, b} = c;';
     var expected = 'var a = c.a;\nvar b = c.b;';
@@ -30,8 +42,19 @@ describe('Plugin', function() {
     });
   });
 
-  describe('custom file extensions & patterns', function() {
+  it('should load indicated plugins', function(done) {
+    var content = 'var c = () => process.env.NODE_ENV;';
+    var expected = '"use strict";\n\nvar c = function c() {\n  return undefined;\n};';
 
+    plugin = new Plugin({ plugins: { babel: { plugins: ['transform-node-env-inline'] }}});
+    plugin.compile({data: content, path: 'file.js'}, function(error, result) {
+      assert(!error);
+      assert(result.data.indexOf(expected) !== -1);
+      done();
+    });
+  });
+
+  describe('custom file extensions & patterns', function() {
     var basicPlugin = new Plugin({
       plugins: {
         babel: {
