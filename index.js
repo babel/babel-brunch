@@ -18,6 +18,10 @@ function BabelCompiler(config) {
     this.pattern = this.options.pattern;
     delete this.options.pattern;
   }
+  this.options.presets = this.options.presets || ['es2015'];
+  if (this.options.presets.length === 0) {
+    delete this.options.presets;
+  }
 }
 
 BabelCompiler.prototype.brunchPlugin = true;
