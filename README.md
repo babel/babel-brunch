@@ -16,6 +16,10 @@ Set [babel options](https://babeljs.io/docs/usage/options) in your brunch
 config (such as `brunch-config.coffee`) except for `filename` and `sourceMap`
 which are handled internally.
 
+This plugin uses, by default, the
+[es2015](http://babeljs.io/docs/plugins/preset-es2015/) preset. To use no
+preset, then set the configuration option to an empty array.
+
 Additionally, you can set an `ignore` value to specify which `.js` files in
 your project should not be compiled by babel. By default, `ignore` is set to
 `/^(bower_components|vendor)/`.
@@ -26,15 +30,13 @@ compiling every `.js` file.
 
 ```coffee
 plugins:
-	babel:
-		whitelist: ['arrowFunctions']
-		format:
-			semicolons: false
-		ignore: [
-			/^(bower_components|vendor)/
-			'app/legacyES5Code/**/*'
-		]
-		pattern: /\.(es6|jsx)$/
+  babel:
+    presets: ['es2015']
+    ignore: [
+      /^(bower_components|vendor)/
+      'app/legacyES5Code/**/*'
+    ]
+    pattern: /\.(es6|jsx)$/
 ```
 
 Change Log
