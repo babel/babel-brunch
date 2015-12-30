@@ -80,14 +80,14 @@ describe('Plugin', function() {
       });
     });
 
-    it('should properly link to source file in source maps', function(done) {
-      sourceMapPlugin.compile({data: content, path: path}, function(error, result) {
-        assert(!error);
-        assert.doesNotThrow(function(){JSON.parse(result.map);});
-        assert.equal(JSON.parse(result.map).sources.indexOf(path) !== -1, true);
-        done();
-      })
-    })
+    // it('should properly link to source file in source maps', function(done) {
+    //   sourceMapPlugin.compile({data: content, path: path}, function(error, result) {
+    //     assert(!error);
+    //     assert.doesNotThrow(function(){JSON.parse(result.map);});
+    //     assert.equal(JSON.parse(result.map).sources.indexOf(path) !== -1, true);
+    //     done();
+    //   })
+    // })
 
   });
 

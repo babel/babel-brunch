@@ -30,7 +30,8 @@ BabelCompiler.prototype.extension = 'js';
 
 BabelCompiler.prototype.compile = function (params, callback) {
   if (this.isIgnored(params.path)) return callback(null, params);
-  this.options.filename = params.path;
+  // this.options.filename = params.path;
+  // this.options.sourceRoot = process.cwd();
   var compiled;
   try {
     compiled = babel.transform(params.data, this.options);
