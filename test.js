@@ -24,22 +24,20 @@ describe('Plugin', function() {
     var content = 'var c = {};\nvar { a, b } = c;';
 
     plugin = new Plugin({ plugins: { babel: { presets: [] }}});
-    plugin.compile({data: content, path: 'file.js'}, function (error, result) {
-      assert(!error);
+    plugin.compile({data: content, path: 'file.js'}).then(result => {
       assert(result.data.indexOf(content) !== -1);
       done();
-    });
+    }, error => assert(!error));
   });
 
   it('should compile and produce valid result', function(done) {
     var content = 'var c = {};\nvar {a, b} = c;';
     var expected = 'var a = c.a;\nvar b = c.b;';
 
-    plugin.compile({data: content, path: 'file.js'}, function(error, result) {
-      assert(!error);
+    plugin.compile({data: content, path: 'file.js'}).then(result => {
       assert(result.data.indexOf(expected) !== -1);
       done();
-    });
+    }, error => assert(!error));
   });
 
   it('should load indicated plugins', function(done) {
@@ -47,11 +45,10 @@ describe('Plugin', function() {
     var expected = '"use strict";\n\nvar c = function c() {\n  return undefined;\n};';
 
     plugin = new Plugin({ plugins: { babel: { plugins: ['transform-node-env-inline'] }}});
-    plugin.compile({data: content, path: 'file.js'}, function(error, result) {
-      assert(!error);
+    plugin.compile({data: content, path: 'file.js'}).then(result => {
       assert(result.data.indexOf(expected) !== -1);
       done();
-    });
+    }, error => assert(!error));
   });
 
   describe('custom file extensions & patterns', function() {
@@ -74,19 +71,15 @@ describe('Plugin', function() {
     var path = 'file.es6'
 
     it('should handle custom file extensions', function(done) {
-      basicPlugin.compile({data: content, path: path}, function(error, result) {
-        assert(!error);
-        done();
-      });
+      basicPlugin.compile({data: content, path: path}).then(result => done(), error => assert(!error));
     });
 
     it('should properly link to source file in source maps', function(done) {
-      sourceMapPlugin.compile({data: content, path: path}, function(error, result) {
-        assert(!error);
+      sourceMapPlugin.compile({data: content, path: path}).then(result => {
         assert.doesNotThrow(function(){JSON.parse(result.map);});
         assert.equal(JSON.parse(result.map).sources.indexOf(path) !== -1, true);
         done();
-      })
+      }, error => assert(!error));
     })
 
   });
@@ -97,20 +90,18 @@ describe('Plugin', function() {
 
     var content = 'let a = 1';
 
-    plugin.compile({data: content, path: 'file.js'}, function(error, result) {
-      assert(!error);
+    plugin.compile({data: content, path: 'file.js'}).then(result => {
       assert.doesNotThrow(function(){JSON.parse(result.map);});
       done();
-    });
+    }, error => assert(!error));
   });
 
   it('should pass through content of ignored paths', function(done) {
     var content = 'asdf';
 
-     plugin.compile({data: content, path: 'vendor/file.js'}, function(error, result) {
-      assert(!error);
+     plugin.compile({data: content, path: 'vendor/file.js'}).then(result => {
       assert.equal(content, result.data);
       done();
-    });
+    }, error => assert(!error));
   });
 });
