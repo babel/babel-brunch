@@ -21,6 +21,7 @@
   "scripts": {
     "test": "eslint index && mocha"
   },
+  "files": ["index.js"],
   "dependencies": {
     "babel-core": "^6.0.0",
     "anymatch": "^1.0.0",

@@ -3,26 +3,28 @@
 const babel = require('babel-core');
 const anymatch = require('anymatch');
 
+const reIg = /^(bower_components|node_modules\/[.-\w]-brunch|vendor)/;
+
 class BabelCompiler {
   constructor(config) {
     if (!config) config = {};
-    var options = config.plugins &&
+    const options = config.plugins &&
       (config.plugins.babel || config.plugins.ES6to5) || {};
-    this.options = {};
-    Object.keys(options).forEach(key => {
-      if (key === 'sourceMap' || key === 'ignore') return;
-      this.options[key] = options[key];
-    });
-    this.options.sourceMap = !!config.sourceMaps;
-    this.isIgnored = anymatch(options.ignore || /^(bower_components|node_modules\/[.-\w]-brunch|vendor)/);
-    if (this.options.pattern) {
-      this.pattern = this.options.pattern;
-      delete this.options.pattern;
+    const opts = Object.keys(options).reduce((obj, key) => {
+      if (key !== 'sourceMap' && key !== 'ignore') {
+        obj[key] = options[key];
+      }
+      return obj;
+    }, {});
+    opts.sourceMap = !!config.sourceMaps;
+    if (opts.pattern) {
+      this.pattern = opts.pattern;
+      delete opts.pattern;
     }
-    this.options.presets = this.options.presets || ['es2015'];
-    if (this.options.presets.length === 0) {
-      delete this.options.presets;
-    }
+    if (!opts.presets) opts.presets = ['es2015'];
+    if (opts.presets.length === 0) delete opts.presets;
+    this.isIgnored = anymatch(options.ignore || reIg);
+    this.options = opts;
   }
 
   compile(params) {
