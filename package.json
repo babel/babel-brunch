@@ -19,7 +19,7 @@
     "6to5"
   ],
   "scripts": {
-    "test": "node_modules/.bin/eslint index.js && node_modules/.bin/mocha"
+    "test": "eslint index && mocha"
   },
   "dependencies": {
     "babel-core": "^6.0.0",
@@ -29,6 +29,6 @@
   "devDependencies": {
     "babel-plugin-transform-node-env-inline": "^6.1.18",
     "mocha": "^2.0.0",
-    "eslint": "^1.10.3"
+    "eslint": "^2.0.0"
   }
 }
