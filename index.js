@@ -14,7 +14,7 @@ class BabelCompiler {
       this.options[key] = options[key];
     });
     this.options.sourceMap = !!config.sourceMaps;
-    this.isIgnored = anymatch(options.ignore || /^(bower_components|vendor)/);
+    this.isIgnored = anymatch(options.ignore || /^(bower_components|node_modules\/[.-\w]-brunch|vendor)/);
     if (this.options.pattern) {
       this.pattern = this.options.pattern;
       delete this.options.pattern;
