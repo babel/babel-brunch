@@ -19,7 +19,7 @@
     "6to5"
   ],
   "scripts": {
-    "test": "eslint index && mocha"
+    "test": "eslint index.js && mocha"
   },
   "files": ["index.js"],
   "dependencies": {
