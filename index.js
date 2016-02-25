@@ -4,6 +4,7 @@ const babel = require('babel-core');
 const anymatch = require('anymatch');
 
 const reIg = /^(bower_components|node_modules\/[.-\w]-brunch|vendor)/;
+const reJsx = /\.(es6|jsx|js)$/;
 
 class BabelCompiler {
   constructor(config) {
@@ -22,6 +23,7 @@ class BabelCompiler {
       delete opts.pattern;
     }
     if (!opts.presets) opts.presets = ['es2015'];
+    if (opts.presets.indexOf('react') !== -1) this.pattern = reJsx;
     if (opts.presets.length === 0) delete opts.presets;
     this.isIgnored = anymatch(options.ignore || reIg);
     this.options = opts;
