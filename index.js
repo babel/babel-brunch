@@ -18,13 +18,13 @@ class BabelCompiler {
       return obj;
     }, {});
     opts.sourceMap = !!config.sourceMaps;
+    if (!opts.presets) opts.presets = ['es2015'];
+    if (opts.presets.indexOf('react') !== -1) this.pattern = reJsx;
+    if (opts.presets.length === 0) delete opts.presets;
     if (opts.pattern) {
       this.pattern = opts.pattern;
       delete opts.pattern;
     }
-    if (!opts.presets) opts.presets = ['es2015'];
-    if (opts.presets.indexOf('react') !== -1) this.pattern = reJsx;
-    if (opts.presets.length === 0) delete opts.presets;
     this.isIgnored = anymatch(options.ignore || reIg);
     this.options = opts;
   }
