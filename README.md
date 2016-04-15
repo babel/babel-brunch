@@ -14,7 +14,8 @@ Usage
 -----
 
 - **ES2015 / ES6** preset is *included by default*. If you want to use it, just install the plugin. No configuration required.
-- **React** preset could be added with `presets` option in `brunch-config`:
+- To add **React** preset:
+    - Execute `npm install --save-dev babel-preset-react`, then adjusting the `presets` option in `brunch-config`:
     - `plugins: {babel: {presets: ['es2015', 'react']}}`
 - Default behavior is to handle `js` files which are not dependencies and `jsx` files if you enable React preset.
 
