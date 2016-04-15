@@ -10,10 +10,17 @@ Installation
 ------------
 `npm install --save babel-brunch`
 
+Usage
+-----
+
+- **ES2015 / ES6** preset is *included by default*. If you want to use it, just install the plugin. No configuration required.
+- **React** preset could be added with `presets` option in `brunch-config`: `plugins: {babel: {presets: ['es2015', 'react']}}`
+- Default behavior is to handle `js` files which are not dependencies and `jsx` files if you enable React preset.
+
 Configuration
 -------------
 Set [babel options](https://babeljs.io/docs/usage/options) in your brunch
-config (such as `brunch-config.coffee`) except for `filename` and `sourceMap`
+config (such as `brunch-config.js`) except for `filename` and `sourceMap`
 which are handled internally.
 
 This plugin uses, by default, the
