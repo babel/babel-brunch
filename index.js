@@ -32,6 +32,7 @@ class BabelCompiler {
   compile(params) {
     if (this.isIgnored(params.path)) return Promise.resolve(params);
     this.options.filename = params.path;
+    this.options.sourceFileName = params.path;
 
     return new Promise((resolve, reject) => {
       let compiled;
