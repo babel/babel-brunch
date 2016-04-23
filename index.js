@@ -3,7 +3,7 @@
 const babel = require('babel-core');
 const anymatch = require('anymatch');
 
-const reIg = /^(bower_components|node_modules\/[.-\w]-brunch|vendor)/;
+const reIg = /^(bower_components|node_modules|vendor)/;
 const reJsx = /\.(es6|jsx|js)$/;
 
 class BabelCompiler {
