@@ -3,7 +3,7 @@
 const babel = require('babel-core');
 const anymatch = require('anymatch');
 
-const reIg = /^(bower_components|node_modules|vendor)/;
+const reIg = /^(bower_components|vendor)/;
 const reJsx = /\.(es6|jsx|js)$/;
 
 class BabelCompiler {
@@ -19,7 +19,11 @@ class BabelCompiler {
     }, {});
     opts.sourceMap = !!config.sourceMaps;
     if (!opts.presets) opts.presets = ['es2015'];
-    if (opts.presets.indexOf('react') !== -1) this.pattern = reJsx;
+    const origPresets = opts.presets;
+    // this is needed so that babel can locate presets when compiling node_modules
+    const mappedPresets = opts.presets.map(ps => require('path').resolve(config.paths.root, 'node_modules', `babel-preset-${ps}`));
+    opts.presets = mappedPresets;
+    if (origPresets.indexOf('react') !== -1) this.pattern = reJsx;
     if (opts.presets.length === 0) delete opts.presets;
     if (opts.pattern) {
       this.pattern = opts.pattern;
