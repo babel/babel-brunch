@@ -6,6 +6,8 @@ into vanilla ES5 with no runtime required.
 All the `.js` files in your project will be run through the babel compiler,
 except those it is configured to ignore, unless you use the `pattern` option.
 
+Additionally, starting Brunch 2.7.3, babel-brunch will also compile NPM dependencies.
+
 Installation
 ------------
 `npm install --save babel-brunch`
