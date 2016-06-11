@@ -44,7 +44,7 @@ plugins: {
   babel: {
     presets: ['es2015'],
     ignore: [
-      /^(bower_components|vendor)/
+      /^(bower_components|vendor)/,
       'app/legacyES5Code/**/*'
     ],
     pattern: /\.(es6|jsx)$/
