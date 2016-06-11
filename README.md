@@ -39,15 +39,17 @@ You can also set `pattern` to a regular expression that will match the file
 paths you want compiled by babel, which will override the standard behavior of
 compiling every `.js` file.
 
-```coffee
-plugins:
-  babel:
-    presets: ['es2015']
+```js
+plugins: {
+  babel: {
+    presets: ['es2015'],
     ignore: [
       /^(bower_components|vendor)/
       'app/legacyES5Code/**/*'
-    ]
+    ],
     pattern: /\.(es6|jsx)$/
+  }
+}
 ```
 
 Change Log
