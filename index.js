@@ -18,7 +18,7 @@ class BabelCompiler {
       return obj;
     }, {});
     opts.sourceMap = !!config.sourceMaps;
-    if (!opts.presets) opts.presets = ['es2015'];
+    if (!opts.presets) opts.presets = ['es2015', 'es2016'];
     const origPresets = opts.presets;
     // this is needed so that babel can locate presets when compiling node_modules
     const mappedPresets = opts.presets.map(ps => require('path').resolve(config.paths.root, 'node_modules', `babel-preset-${ps}`));
