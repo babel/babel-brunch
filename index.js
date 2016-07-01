@@ -2,6 +2,7 @@
 
 const babel = require('babel-core');
 const anymatch = require('anymatch');
+const resolve = require('path').resolve;
 
 const reIg = /^(bower_components|vendor)/;
 const reJsx = /\.(es6|jsx|js)$/;
@@ -21,7 +22,7 @@ class BabelCompiler {
     if (!opts.presets) opts.presets = ['es2015', 'es2016'];
     const origPresets = opts.presets;
     // this is needed so that babel can locate presets when compiling node_modules
-    const mappedPresets = opts.presets.map(ps => require('path').resolve(config.paths.root, 'node_modules', `babel-preset-${ps}`));
+    const mappedPresets = opts.presets.map(ps => resolve(config.paths.root, 'node_modules', `babel-preset-${ps}`));
     opts.presets = mappedPresets;
     if (origPresets.indexOf('react') !== -1) this.pattern = reJsx;
     if (opts.presets.length === 0) delete opts.presets;
@@ -38,14 +39,9 @@ class BabelCompiler {
     this.options.filename = params.path;
     this.options.sourceFileName = params.path;
 
-    return new Promise((resolve, reject) => {
-      let compiled;
-      try {
-        compiled = babel.transform(params.data, this.options);
-      } catch (err) {
-        return reject(err);
-      }
-      var result = {data: compiled.code || compiled};
+    return new Promise(resolve => {
+      const compiled = babel.transform(params.data, this.options);
+      const result = {data: compiled.code || compiled};
 
       // Concatenation is broken by trailing comments in files, which occur
       // frequently when comment nodes are lost in the AST from babel.
