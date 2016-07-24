@@ -7,6 +7,14 @@ const resolve = require('path').resolve;
 const reIg = /^(bower_components|vendor)/;
 const reJsx = /\.(es6|jsx|js)$/;
 
+const prettySyntaxError = (err) => {
+  if (err._babel && err instanceof SyntaxError) {
+    return `${err.name}: ${err.message}\n${err.codeFrame}`;
+  } else {
+    return err;
+  }
+};
+
 class BabelCompiler {
   constructor(config) {
     if (!config) config = {};
@@ -39,8 +47,16 @@ class BabelCompiler {
     this.options.filename = params.path;
     this.options.sourceFileName = params.path;
 
-    return new Promise(resolve => {
-      const compiled = babel.transform(params.data, this.options);
+    return new Promise((resolve, reject) => {
+      let compiled;
+
+      try {
+        compiled = babel.transform(params.data, this.options);
+      } catch (error) {
+        reject(prettySyntaxError(error));
+        return;
+      }
+
       const result = {data: compiled.code || compiled};
 
       // Concatenation is broken by trailing comments in files, which occur
