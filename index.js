@@ -28,12 +28,16 @@ class BabelCompiler {
     }, {});
     opts.sourceMap = !!config.sourceMaps;
     if (!opts.presets) opts.presets = ['es2015', 'es2016'];
+    if (!opts.plugins) opts.plugins = [];
     const origPresets = opts.presets;
     // this is needed so that babel can locate presets when compiling node_modules
     const mappedPresets = opts.presets.map(ps => resolve(config.paths.root, 'node_modules', `babel-preset-${ps}`));
+    const mappedPlugins = opts.plugins.map(pg => resolve(config.paths.root, 'node_modules', `babel-plugin-${pg}`));
     opts.presets = mappedPresets;
+    opts.plugins = mappedPlugins;
     if (origPresets.indexOf('react') !== -1) this.pattern = reJsx;
     if (opts.presets.length === 0) delete opts.presets;
+    if (opts.plugins.length === 0) delete opts.plugins;
     if (opts.pattern) {
       this.pattern = opts.pattern;
       delete opts.pattern;
