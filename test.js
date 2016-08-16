@@ -40,11 +40,44 @@ describe('Plugin', function() {
     }, error => assert(!error));
   });
 
+  it('should load indicated presets', function(done) {
+    var content = 'x => x'
+    var expected = 'function'
+
+    plugin = new Plugin({ paths: { root: '.' }, plugins: { babel: { presets: ['es2015'] }}});
+    plugin.compile({data: content, path: 'file.js'}).then(result => {
+      assert(result.data.indexOf(expected) !== -1);
+      done();
+    }, error => assert(!error));
+  });
+
+  it('should load indicated presets with options', function(done) {
+    var content = "export default 0";
+    var expected = 'System.register';
+
+    plugin = new Plugin({ paths: { root: '.' }, plugins: { babel: { presets: [['es2015', { modules: 'systemjs' }]] }}});
+    plugin.compile({data: content, path: 'file.js'}).then(result => {
+      assert(result.data.indexOf(expected) !== -1);
+      done();
+    }, error => assert(!error));
+  });
+
   it('should load indicated plugins', function(done) {
     var content = 'var c = () => process.env.NODE_ENV;';
     var expected = '"use strict";\n\nvar c = function c() {\n  return undefined;\n};';
 
     plugin = new Plugin({ paths: { root: '.' }, plugins: { babel: { plugins: ['transform-node-env-inline'] }}});
+    plugin.compile({data: content, path: 'file.js'}).then(result => {
+      assert(result.data.indexOf(expected) !== -1);
+      done();
+    }, error => assert(!error));
+  });
+
+  it('should load indicated plugins with options', function(done) {
+    var content = '`var x = 1; test ${x}`'
+    var expected = 'String(x)'
+
+    plugin = new Plugin({ paths: { root: '.' }, plugins: { babel: { plugins: [['transform-es2015-template-literals', { spec: true }]] }}});
     plugin.compile({data: content, path: 'file.js'}).then(result => {
       assert(result.data.indexOf(expected) !== -1);
       done();
