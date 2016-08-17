@@ -31,8 +31,15 @@ class BabelCompiler {
     if (!opts.plugins) opts.plugins = [];
     const origPresets = opts.presets;
     // this is needed so that babel can locate presets when compiling node_modules
-    const mappedPresets = opts.presets.map(ps => resolve(config.paths.root, 'node_modules', `babel-preset-${ps}`));
-    const mappedPlugins = opts.plugins.map(pg => resolve(config.paths.root, 'node_modules', `babel-plugin-${pg}`));
+    const mapOption = type => data => {
+      const resolvePath = name => (
+        resolve(config.paths.root, 'node_modules', `babel-${type}-${name}`)
+      );
+      if (typeof data === 'string') return resolvePath(data);
+      return [resolvePath(data[0]), data[1]];
+    };
+    const mappedPresets = opts.presets.map(mapOption('preset'));
+    const mappedPlugins = opts.plugins.map(mapOption('plugin'));
     opts.presets = mappedPresets;
     opts.plugins = mappedPlugins;
     if (origPresets.indexOf('react') !== -1) this.pattern = reJsx;
