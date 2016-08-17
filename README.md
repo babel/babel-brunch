@@ -15,14 +15,16 @@ Installation
 Usage
 -----
 
-- Presets for the latest ECMAScript standard are *included by default*. If you want to use them, just install the plugin. No configuration required.
+- **No configuration is required by default.** `es2015` and `es2016` presets are included.
 - To add **React** preset:
     - Execute `npm install --save-dev babel-preset-react`, then adjust the `presets` option in `brunch-config.js`:
     - `plugins: {babel: {presets: ['es2015', 'es2016', 'react']}}`
 - Default behavior is to handle `js` files which are not dependencies and `jsx` files if you enable React preset.
+- To specify preset options: `{presets: [['transform-es2015-template-literals', { spec: true }]]}`
 
 Configuration
 -------------
+
 Set [babel options](https://babeljs.io/docs/usage/options) in your brunch
 config (such as `brunch-config.js`) except for `filename` and `sourceMap`
 which are handled internally.
@@ -43,12 +45,12 @@ compiling every `.js` file.
 ```js
 plugins: {
   babel: {
-    presets: ['es2015', 'es2016'],
+    presets: ['es2015', 'es2016', 'react'], // es2015, es2016 are defaults
     ignore: [
       /^(bower_components|vendor)/,
       'app/legacyES5Code/**/*'
     ],
-    pattern: /\.(es6|jsx)$/
+    pattern: /\.(es6|jsx)$/ // js and jsx are defaults.
   }
 }
 ```
