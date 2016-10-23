@@ -53,16 +53,16 @@ class BabelCompiler {
     this.options = opts;
   }
 
-  compile(params) {
-    if (this.isIgnored(params.path)) return Promise.resolve(params);
-    this.options.filename = params.path;
-    this.options.sourceFileName = params.path;
+  compile(file) {
+    if (this.isIgnored(file.path)) return Promise.resolve(file);
+    this.options.filename = file.path;
+    this.options.sourceFileName = file.path;
 
     return new Promise((resolve, reject) => {
       let compiled;
 
       try {
-        compiled = babel.transform(params.data, this.options);
+        compiled = babel.transform(file.data, this.options);
       } catch (error) {
         reject(prettySyntaxError(error));
         return;
