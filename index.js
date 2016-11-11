@@ -9,7 +9,7 @@ const reJsx = /\.(es6|jsx|js)$/;
 
 const prettySyntaxError = (err) => {
   if (err._babel && err instanceof SyntaxError) {
-    return `${err.name}: ${err.message}\n${err.codeFrame}`;
+    return new Error(`${err.name}: ${err.message}\n${err.codeFrame}`);
   } else {
     return err;
   }
