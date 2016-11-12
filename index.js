@@ -32,9 +32,12 @@ class BabelCompiler {
     const origPresets = opts.presets;
     // this is needed so that babel can locate presets when compiling node_modules
     const mapOption = type => data => {
-      const resolvePath = name => (
-        resolve(config.paths.root, 'node_modules', `babel-${type}-${name}`)
-      );
+      const resolvePath = name => {
+        if (/!$/.test(name)) name = name.replace(/!$/, '');
+        else name = `babel-${type}-${name}`;
+
+        return resolve(config.paths.root, 'node_modules', name);
+      };
       if (typeof data === 'string') return resolvePath(data);
       return [resolvePath(data[0]), data[1]];
     };
