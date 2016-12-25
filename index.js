@@ -4,6 +4,8 @@ const babel = require('babel-core');
 const anymatch = require('anymatch');
 const resolve = require('path').resolve;
 
+const {OptionManager} = babel;
+
 const reIg = /^(bower_components|vendor)/;
 const reJsx = /\.(es6|jsx|js)$/;
 
@@ -18,14 +20,22 @@ const prettySyntaxError = (err) => {
 class BabelCompiler {
   constructor(config) {
     if (!config) config = {};
+    const optManager = new OptionManager;
+    const filename = './babelrc';
     const options = config.plugins &&
       (config.plugins.babel || config.plugins.ES6to5) || {};
-    const opts = Object.keys(options).reduce((obj, key) => {
+
+    options.filename = filename;
+
+    const mergedOptions = optManager.init(options);
+
+    const opts = Object.keys(mergedOptions).reduce((obj, key) => {
       if (key !== 'sourceMap' && key !== 'ignore') {
-        obj[key] = options[key];
+        obj[key] = mergedOptions[key];
       }
       return obj;
     }, {});
+    
     opts.sourceMap = !!config.sourceMaps;
     if (!opts.presets) opts.presets = ['es2015', 'es2016'];
     if (!opts.plugins) opts.plugins = [];
