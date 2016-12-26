@@ -3,11 +3,14 @@
 const babel = require('babel-core');
 const anymatch = require('anymatch');
 const resolve = require('path').resolve;
-
-const {OptionManager} = babel;
+const logger = require('loggy');
 
 const reIg = /^(bower_components|vendor)/;
-const reJsx = /\.(es6|jsx|js)$/;
+
+const warns = {
+  emptyPresets: 'No plugins and presets was specified in brunch-config. If you are using .babelrc or `babel` option in your package.json please add `lookupConfigs` option to your brunch-config. Added es2015 and es2016 presets by default.',
+  ES6to5: 'Please use `babel` instead of `ES6to5` option in your config file.'
+}
 
 const prettySyntaxError = (err) => {
   if (err._babel && err instanceof SyntaxError) {
@@ -17,28 +20,43 @@ const prettySyntaxError = (err) => {
   }
 };
 
+const warnIf = (condition, warning) => {
+  if (condition) {
+    logger.warn(`${warning}`);
+  }
+};
+
 class BabelCompiler {
   constructor(config) {
     if (!config) config = {};
-    const optManager = new OptionManager;
-    const filename = './babelrc';
+    const rootPath = config.paths.root || '.';
+    const filename = resolve(rootPath, 'babelrc');
     const options = config.plugins &&
       (config.plugins.babel || config.plugins.ES6to5) || {};
+    if (options && !config.plugins.babel) {
+      warnIf(config.plugins.ES6to5, warns.ES6to5);
+    }
 
     options.filename = filename;
 
-    const mergedOptions = optManager.init(options);
-
-    const opts = Object.keys(mergedOptions).reduce((obj, key) => {
+    const opts = Object.keys(options).reduce((obj, key) => {
       if (key !== 'sourceMap' && key !== 'ignore') {
-        obj[key] = mergedOptions[key];
+        obj[key] = options[key];
       }
       return obj;
     }, {});
-    
+
     opts.sourceMap = !!config.sourceMaps;
-    if (!opts.presets) opts.presets = ['es2015', 'es2016'];
+    if (!opts.presets || opts.presets.length === 0) {
+      if (!config.lookupConfigs) {
+        warnIf(true, warns.emptyPresets);
+        opts.presets = ['es2015', 'es2016'];
+      } else {
+        opts.presets = [];
+      }
+    }
     if (!opts.plugins) opts.plugins = [];
+
     const origPresets = opts.presets;
     // this is needed so that babel can locate presets when compiling node_modules
     const mapOption = type => data => {
@@ -52,7 +70,6 @@ class BabelCompiler {
     const mappedPlugins = opts.plugins.map(mapOption('plugin'));
     opts.presets = mappedPresets;
     opts.plugins = mappedPlugins;
-    if (origPresets.indexOf('react') !== -1) this.pattern = reJsx;
     if (opts.presets.length === 0) delete opts.presets;
     if (opts.plugins.length === 0) delete opts.plugins;
     if (opts.pattern) {
@@ -93,5 +110,6 @@ class BabelCompiler {
 BabelCompiler.prototype.brunchPlugin = true;
 BabelCompiler.prototype.type = 'javascript';
 BabelCompiler.prototype.extension = 'js';
+BabelCompiler.prototype.pattern = /\.(es6|jsx?)$/;
 
 module.exports = BabelCompiler;
