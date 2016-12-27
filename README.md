@@ -10,7 +10,7 @@ Additionally, starting Brunch 2.7.3, babel-brunch will also compile NPM dependen
 
 Installation
 ------------
-`npm install --save babel-brunch`
+`npm install --save-dev babel-brunch`
 
 Usage
 -----
