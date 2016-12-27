@@ -8,7 +8,7 @@ const logger = require('loggy');
 const reIg = /^(bower_components|vendor)/;
 
 const warns = {
-  emptyPresets: 'No plugins and presets is specified in brunch-config. If you are using .babelrc or `babel` option in your package.json please add `lookupConfigs` option to your brunch-config. Added es2015 and es2016 presets by default.',
+  emptyPresets: 'No plugins and presets is specified in brunch-config. If you are using .babelrc or `babel` option in your package.json please add `lookupConfigs: true` to your brunch-config. Added es2015 and es2016 presets by default.',
   ES6to5: 'Please use `babel` instead of `ES6to5` option in your config file.'
 }
 
