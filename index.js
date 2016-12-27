@@ -29,15 +29,11 @@ const warnIf = (condition, warning) => {
 class BabelCompiler {
   constructor(config) {
     if (!config) config = {};
-    const rootPath = config.paths.root || '.';
-    const filename = resolve(rootPath, 'babelrc');
     const options = config.plugins &&
       (config.plugins.babel || config.plugins.ES6to5) || {};
     if (options && !config.plugins.babel) {
       warnIf(config.plugins.ES6to5, warns.ES6to5);
     }
-
-    options.filename = filename;
 
     const opts = Object.keys(options).reduce((obj, key) => {
       if (key !== 'sourceMap' && key !== 'ignore') {
