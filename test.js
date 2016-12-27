@@ -32,7 +32,7 @@ describe('Plugin', function() {
 
   it('should compile and produce valid result', function(done) {
     var content = 'var c = {};\nvar {a, b} = c;';
-    var expected = 'var a = c.a;\nvar b = c.b;';
+    var expected = 'var a = c.a,\n    b = c.b;';
 
     plugin.compile({data: content, path: 'file.js'}).then(result => {
       assert(result.data.indexOf(expected) !== -1);
