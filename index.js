@@ -36,7 +36,7 @@ class BabelCompiler {
     }, {});
 
     opts.sourceMap = !!config.sourceMaps;
-    if (!opts.presets || opts.presets.length === 0) {
+    if (!opts.presets) {
       opts.presets = [['env', opts.env]];
     }
     if (!opts.plugins) opts.plugins = [];
