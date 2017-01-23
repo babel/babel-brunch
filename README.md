@@ -29,10 +29,25 @@ Set [babel options](https://babeljs.io/docs/usage/options) in your brunch
 config (such as `brunch-config.js`) except for `filename` and `sourceMap`
 which are handled internally.
 
-This plugin uses, by default, the
-[es2015](https://babeljs.io/docs/plugins/preset-es2015/) and
-[es2016](https://babeljs.io/docs/plugins/preset-es2016/) presets. To use no
-preset, set the configuration option to an empty array.
+This plugin uses, by default,
+[babel-preset-env](https://github.com/babel/babel-preset-env/).
+To configure, use `env` option:
+
+```js
+plugins: {
+  babel: {
+    env: {
+      targets: {
+        safari 7, // explicitly
+        browsers: '>2%' // with browserslist query
+      }
+    }
+  }
+}
+```
+Without providing any options, behavior will be like using [babel-preset-latest](https://babeljs.io/docs/plugins/preset-latest/) (es2015, es2016, es2017).
+
+To use no preset, set the configuration option to an empty array.
 
 Additionally, you can set an `ignore` value to specify which `.js` files in
 your project should not be compiled by babel. By default, `ignore` is set to
