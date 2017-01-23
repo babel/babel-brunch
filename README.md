@@ -38,7 +38,7 @@ plugins: {
   babel: {
     env: {
       targets: {
-        safari 7, // explicitly
+        safari: 7, // explicitly
         browsers: '>2%' // with browserslist query
       }
     }
