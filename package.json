@@ -28,7 +28,7 @@
   "dependencies": {
     "babel-core": "^6.0.0",
     "anymatch": "^1.0.0",
-    "loggy": "1.0.1",
+    "loggy": "~1.0.1",
     "babel-preset-env": "^1.1.8"
   },
   "devDependencies": {
