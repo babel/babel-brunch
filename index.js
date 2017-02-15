@@ -12,19 +12,21 @@ const warns = {
 };
 
 const prettySyntaxError = (err) => {
-  if (err._babel && err instanceof SyntaxError) {
-    return new Error(`${err.name}: ${err.message}\n${err.codeFrame}`);
-  } else {
-    return err;
-  }
+  if (!(err._babel && err instanceof SyntaxError)) return err;
+  const msg = err.message.replace(/\(\d+:\d+\)$/, '').replace(/^([\./\w]+\:\s)/, '');
+  const error = new Error(`L${err.loc.line}:${err.loc.column} ${msg}\n${err.codeFrame}`);
+  error.name = '';
+  error.stack = err.stack;
+  return error;
 };
 
 class BabelCompiler {
   constructor(config) {
     if (!config) config = {};
-    const options = config.plugins &&
-      (config.plugins.babel || config.plugins.ES6to5) || {};
-    if (options && !config.plugins.babel && config.plugins.ES6to5) {
+    const pl = config.plugins;
+    const options = pl && (pl.babel || pl.ES6to5) || {};
+
+    if (pl && !pl.babel && pl.ES6to5) {
       logger.warn(warns.ES6to5);
     }
 

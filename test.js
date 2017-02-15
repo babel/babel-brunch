@@ -37,7 +37,10 @@ describe('Plugin', function() {
     plugin.compile({data: content, path: 'file.js'}).then(result => {
       assert(result.data.indexOf(expected) !== -1);
       done();
-    }, error => assert(!error));
+    }, error => {
+      console.log(error);
+      assert(!error);
+    });
   });
 
   it('should load indicated presets', function(done) {
@@ -48,7 +51,10 @@ describe('Plugin', function() {
     plugin.compile({data: content, path: 'file.js'}).then(result => {
       assert(result.data.indexOf(expected) !== -1);
       done();
-    }, error => assert(!error));
+    }, error => {
+      console.log(error);
+      assert(!error);
+    });
   });
 
   it('should load indicated presets with options', function(done) {
