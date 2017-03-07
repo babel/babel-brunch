@@ -21,7 +21,7 @@ Additionally, starting Brunch 2.7, babel-brunch will also compile NPM dependenci
 Install a plugin:
 
 ```
-npm insall --save-dev babel-preset-react
+npm install --save-dev babel-preset-react
 ```
 
 Then, make sure Brunch sees it:
