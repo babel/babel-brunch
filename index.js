@@ -2,7 +2,6 @@
 
 const babel = require('babel-core');
 const anymatch = require('anymatch');
-const resolve = require('path').resolve;
 const logger = require('loggy');
 
 const reIg = /^(bower_components|vendor)/;
@@ -43,22 +42,6 @@ class BabelCompiler {
       // ['env', opts.env]
     }
     if (!opts.plugins) opts.plugins = [];
-
-    // this is needed so that babel can locate presets when compiling node_modules
-    const mapOption = type => data => {
-      const resolvePath = name => {
-        // for cases when plugins name do not match common convention
-        // for example: `babel-root-import`
-        const plugin = name.startsWith('babel-') ? name : `babel-${type}-${name}`;
-        return resolve(config.paths.root, 'node_modules', plugin);
-      };
-      if (typeof data === 'string') return resolvePath(data);
-      return [resolvePath(data[0]), data[1]];
-    };
-    const mappedPresets = opts.presets.map(mapOption('preset'));
-    const mappedPlugins = opts.plugins.map(mapOption('plugin'));
-    opts.presets = mappedPresets;
-    opts.plugins = mappedPlugins;
     if (opts.presets.length === 0) delete opts.presets;
     if (opts.plugins.length === 0) delete opts.plugins;
     if (opts.pattern) {
