@@ -9,12 +9,14 @@ const logger = require('loggy');
 const reIg = /^(bower_components|vendor)/;
 
 const warns = {
-  ES6to5: 'Please use `babel` instead of `ES6to5` option in your config file.'
+  ES6to5: 'Please use `babel` instead of `ES6to5` option in your config file.',
 };
 
-const prettySyntaxError = (err) => {
+const prettySyntaxError = err => {
   if (!(err._babel && err instanceof SyntaxError)) return err;
-  const msg = err.message.replace(/\(\d+:\d+\)$/, '').replace(/^([\./\w]+\:\s)/, '');
+  const msg = err.message
+    .replace(/\(\d+:\d+\)$/, '')
+    .replace(/^([./\w]+:\s)/, '');
   const error = new Error(`L${err.loc.line}:${err.loc.column} ${msg}\n${err.codeFrame}`);
   error.name = '';
   error.stack = err.stack;
