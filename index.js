@@ -1,5 +1,7 @@
 'use strict';
 
+const fs = require('fs');
+const path = require('path');
 const babel = require('babel-core');
 const anymatch = require('anymatch');
 const logger = require('loggy');
@@ -37,8 +39,27 @@ class BabelCompiler {
     }, {});
 
     opts.sourceMap = !!config.sourceMaps;
-    if (!opts.presets) opts.presets = ['latest'];
-    if (opts.presets.length === 0) delete opts.presets;
+
+    // Include 'latest' preset only if:
+    //  * there's no defined presets in brunch-config.js
+    //  * there's no .babelrc file in root directory
+    //  * there's no 'babel' field in package.json
+    if (!opts.presets) {
+      const babelrcPath = path.resolve(config.paths.root, '.babelrc');
+      const packagePath = path.resolve(config.paths.root, 'package.json');
+
+      try {
+        const babelrc = fs.existsSync(babelrcPath);
+        const packageConfig = JSON.parse(fs.readFileSync(packagePath));
+
+        if (!babelrc && !('babel' in packageConfig)) {
+          opts.presets = ['latest'];
+        }
+      } catch (e) {
+        // ignore possible errors
+      }
+    }
+
     if (opts.pattern) {
       this.pattern = opts.pattern;
       delete opts.pattern;
