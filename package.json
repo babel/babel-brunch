@@ -22,7 +22,7 @@
     "6to5"
   ],
   "scripts": {
-    "test": "eslint index.js && mocha"
+    "test": "eslint *.js && mocha"
   },
   "files": [
     "index.js"
