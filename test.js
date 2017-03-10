@@ -49,7 +49,7 @@ describe('Plugin', function() {
     plugin = new Plugin({
       paths: {root: '.'},
       plugins: {
-        babel: {presets: ['es2015']},
+        babel: {presets: ['latest']},
       },
     });
 
@@ -66,7 +66,11 @@ describe('Plugin', function() {
       paths: {root: '.'},
       plugins: {
         babel: {
-          presets: [['es2015', {modules: 'systemjs'}]],
+          presets: [
+            ['latest', {
+              es2015: {modules: 'systemjs'},
+            }],
+          ],
         },
       },
     });
