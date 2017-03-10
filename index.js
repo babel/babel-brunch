@@ -23,6 +23,17 @@ const prettySyntaxError = err => {
   return error;
 };
 
+const lookup = (where, filename) => {
+  const resolved = path.resolve(where, filename);
+  const parsed = path.parse(resolved);
+
+  if (parsed.dir === parsed.root) return null;
+  if (fs.existsSync(resolved)) return resolved;
+
+  return lookup(path.dirname(parsed.dir), filename);
+};
+
+
 class BabelCompiler {
   constructor(config) {
     if (!config) config = {};
@@ -42,13 +53,9 @@ class BabelCompiler {
 
     opts.sourceMap = !!config.sourceMaps;
 
-    // Include 'latest' preset only if:
-    //  * there's no defined presets in brunch-config.js
-    //  * there's no .babelrc file in root directory
-    //  * there's no 'babel' field in package.json
     if (!opts.presets) {
-      const babelrcPath = path.resolve(config.paths.root, '.babelrc');
-      const packagePath = path.resolve(config.paths.root, 'package.json');
+      const babelrcPath = lookup(config.paths.root, '.babelrc');
+      const packagePath = lookup(config.paths.root, 'package.json');
 
       try {
         const babelrc = fs.existsSync(babelrcPath);
