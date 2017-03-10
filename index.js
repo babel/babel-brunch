@@ -50,7 +50,7 @@ class BabelCompiler {
 
       try {
         const babelrc = fs.existsSync(babelrcPath);
-        const packageConfig = JSON.parse(fs.readFileSync(packagePath));
+        const packageConfig = require(packagePath);
 
         if (!babelrc && !('babel' in packageConfig)) {
           opts.presets = ['latest'];
