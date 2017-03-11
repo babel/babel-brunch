@@ -10,13 +10,15 @@ Additionally, starting Brunch 2.7, babel-brunch will also compile NPM dependenci
 
 ## Installation
 
-`npm install --save-dev babel-brunch`
+```
+npm install --save-dev babel-brunch
+```
 
 ## Configuration
 
-[babel-preset-latest](https://babeljs.io/docs/plugins/preset-latest/) (es2015, es2016, es2017) **is used by default**, you don't need to adjust config to have it.
+[babel-preset-latest](https://babeljs.io/docs/plugins/preset-latest/) (`es2015`, `es2016`, `es2017`) **is used by default**, you don't need to adjust config to have it.
 
-### Using React; or any other plugin
+### Using React or any other plugin
 
 Install a plugin:
 
@@ -26,8 +28,8 @@ npm install --save-dev babel-preset-react
 
 Then, make sure Brunch sees it:
 
-```javascript
-exports.plugins = {
+```js
+module.exports.plugins = {
   babel: {
     presets: ['latest', 'react']
   }
@@ -36,13 +38,17 @@ exports.plugins = {
 
 Optionally, you can configure the preset:
 
-`presets: [ 'latest', ['transform-es2015-template-literals', {spec: true}] ]`
+```js
+babel: {
+  presets: [ 'latest', ['transform-es2015-template-literals', {spec: true}] ]
+}
+```
 
 
 ### Ignoring node modules
 
-```
-exports.plugins = {
+```js
+module.exports.plugins = {
   babel: {
     ignore: [
       /^node_modules/,
@@ -54,7 +60,7 @@ exports.plugins = {
 
 ### Changing which files would be compiled by babel
 
-```
+```js
 exports.plugins = {
   babel: {
     pattern: /\.es7$/ // By default, JS|JSX|ES6 are used.
@@ -67,6 +73,7 @@ config (such as `brunch-config.js`) except for `filename` and `sourceMap`
 which are handled internally.
 
 ## Change Log
+
 [See release notes page on GitHub](https://github.com/babel/babel-brunch/releases)
 
 ## License
