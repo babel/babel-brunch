@@ -1,7 +1,5 @@
 'use strict';
 
-const fs = require('fs');
-const path = require('path');
 const babel = require('babel-core');
 const anymatch = require('anymatch');
 const logger = require('loggy');
@@ -23,17 +21,6 @@ const prettySyntaxError = err => {
   return error;
 };
 
-const lookup = (where, filename) => {
-  const resolved = path.resolve(where, filename);
-  const parsed = path.parse(resolved);
-
-  if (parsed.dir === parsed.root) return null;
-  if (fs.existsSync(resolved)) return resolved;
-
-  return lookup(path.dirname(parsed.dir), filename);
-};
-
-
 class BabelCompiler {
   constructor(config) {
     if (!config) config = {};
@@ -53,22 +40,6 @@ class BabelCompiler {
 
     opts.sourceMap = !!config.sourceMaps;
 
-    if (!opts.presets) {
-      const babelrcPath = lookup(config.paths.root, '.babelrc');
-      const packagePath = lookup(config.paths.root, 'package.json');
-
-      try {
-        const babelrc = fs.existsSync(babelrcPath);
-        const packageConfig = require(packagePath);
-
-        if (!babelrc && !('babel' in packageConfig)) {
-          opts.presets = ['latest'];
-        }
-      } catch (e) {
-        // ignore possible errors
-      }
-    }
-
     if (opts.pattern) {
       this.pattern = opts.pattern;
       delete opts.pattern;
@@ -81,6 +52,16 @@ class BabelCompiler {
     if (this.isIgnored(file.path)) return Promise.resolve(file);
     this.options.filename = file.path;
     this.options.sourceFileName = file.path;
+
+    if (!this.options.presets) {
+      const babelConfig = new babel.OptionManager().init(this.options);
+      console.log(babelConfig);
+      const hasConfig = babelConfig.presets && babelConfig.presets.length > 0;
+
+      if (!hasConfig) {
+        this.options.presets = ['latest'];
+      }
+    }
 
     return new Promise((resolve, reject) => {
       let compiled;
