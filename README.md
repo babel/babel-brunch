@@ -57,7 +57,7 @@ exports.plugins = {
 ```
 exports.plugins = {
   babel: {
-    pattern: /\.vue$/ // By default, JS|JSX|ES6 are used.
+    pattern: /\.(js|vue)$/ // By default, JS|JSX|ES6 are used.
   }
 }
 ```
