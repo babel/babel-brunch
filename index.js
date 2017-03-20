@@ -55,8 +55,9 @@ class BabelCompiler {
 
     if (!this.options.presets) {
       const babelConfig = new babel.OptionManager().init(this.options);
-      console.log(babelConfig);
-      const hasConfig = babelConfig.presets && babelConfig.presets.length > 0;
+      const hasConfig =
+        babelConfig.presets && babelConfig.presets.length > 0 ||
+        babelConfig.plugins && babelConfig.plugins.length > 0;
 
       if (!hasConfig) {
         this.options.presets = ['latest'];
