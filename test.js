@@ -147,7 +147,7 @@ describe('Plugin', function() {
       sourceMapPlugin.compile({data: content, path})
         .then(result => {
           assert.doesNotThrow(() => JSON.parse(result.map));
-          assert(JSON.parse(result.map).sources.includes(path));
+          assert(JSON.parse(result.map).sources.indexOf(path) !== -1);
         })
         .catch(assert.ifError)
     );
