@@ -29,7 +29,7 @@ describe('Plugin', function() {
     });
 
     return plugin.compile({data: content, path: 'file.js'})
-      .then(result => assert(result.data.indexOf(content) !== -1))
+      .then(result => assert(result.data.includes(content)))
       .catch(assert.ifError);
   });
 
@@ -38,7 +38,7 @@ describe('Plugin', function() {
     const expected = 'var a = c.a,\n    b = c.b;';
 
     return plugin.compile({data: content, path: 'file.js'})
-      .then(result => assert(result.data.indexOf(expected) !== -1))
+      .then(result => assert(result.data.includes(expected)))
       .catch(assert.ifError);
   });
 
@@ -54,7 +54,7 @@ describe('Plugin', function() {
     });
 
     return plugin.compile({data: content, path: 'file.js'})
-      .then(result => assert(result.data.indexOf(expected) !== -1))
+      .then(result => assert(result.data.includes(expected)))
       .catch(assert.ifError);
   });
 
@@ -76,7 +76,7 @@ describe('Plugin', function() {
     });
 
     return plugin.compile({data: content, path: 'file.js'})
-      .then(result => assert(result.data.indexOf(expected) !== -1))
+      .then(result => assert(result.data.includes(expected)))
       .catch(assert.ifError);
   });
 
@@ -94,7 +94,7 @@ describe('Plugin', function() {
     });
 
     return plugin.compile({data: content, path: 'file.js'})
-      .then(result => assert(result.data.indexOf(expected) !== -1))
+      .then(result => assert(result.data.includes(expected)))
       .catch(assert.ifError);
   });
 
@@ -112,7 +112,7 @@ describe('Plugin', function() {
     });
 
     return plugin.compile({data: content, path: 'file.js'})
-      .then(result => assert(result.data.indexOf(expected) !== -1))
+      .then(result => assert(result.data.includes(expected)))
       .catch(assert.ifError);
   });
 
@@ -147,7 +147,7 @@ describe('Plugin', function() {
       sourceMapPlugin.compile({data: content, path})
         .then(result => {
           assert.doesNotThrow(() => JSON.parse(result.map));
-          assert(JSON.parse(result.map).sources.indexOf(path) !== -1);
+          assert(JSON.parse(result.map).sources.includes(path));
         })
         .catch(assert.ifError)
     );
