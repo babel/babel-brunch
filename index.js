@@ -60,7 +60,7 @@ class BabelCompiler {
         babelConfig.plugins && babelConfig.plugins.length > 0;
 
       if (!hasConfig) {
-        this.options.presets = ['latest'];
+        this.options.presets = ['env'];
       }
     }
 
