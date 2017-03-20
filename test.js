@@ -82,7 +82,7 @@ describe('Plugin', function() {
 
   it('should load indicated plugins', () => {
     const content = 'var c = () => process.env.NODE_ENV;';
-    const expected = '"use strict";\n\nvar c = function c() {\n  return undefined;\n};';
+    const expected = 'var c = () => undefined;\n';
 
     plugin = new Plugin({
       paths: {root: '.'},
