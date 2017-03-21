@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 'use strict';
 
-const assert = require('assert');
+const should = require('chai').should();
 const Plugin = require('./');
 
 describe('Plugin', function() {
@@ -12,11 +12,13 @@ describe('Plugin', function() {
     plugin = new Plugin({paths: {root: '.'}});
   });
 
-  it('should be an object', () => assert(plugin));
+  it('should be an object', () =>
+    should.exist(plugin)
+  );
 
-  it('should have #compile method', () => {
-    assert.equal(typeof plugin.compile, 'function');
-  });
+  it('should have #compile method', () =>
+    plugin.compile.should.be.a('function')
+  );
 
   it('should do nothing for no preset', () => {
     const content = 'var c = {};\nvar { a, b } = c;';
@@ -29,8 +31,8 @@ describe('Plugin', function() {
     });
 
     return plugin.compile({data: content, path: 'file.js'})
-      .then(result => assert(result.data.includes(content)))
-      .catch(assert.ifError);
+      .then(result => result.data.should.contain(content))
+      .catch(should.not.throw);
   });
 
   it('should compile and produce valid result', () => {
@@ -38,8 +40,8 @@ describe('Plugin', function() {
     const expected = 'var a = c.a,\n    b = c.b;';
 
     return plugin.compile({data: content, path: 'file.js'})
-      .then(result => assert(result.data.includes(expected)))
-      .catch(assert.ifError);
+      .then(result => result.data.should.contain(expected))
+      .catch(should.not.throw);
   });
 
   it('should load indicated presets', () => {
@@ -54,8 +56,8 @@ describe('Plugin', function() {
     });
 
     return plugin.compile({data: content, path: 'file.js'})
-      .then(result => assert(result.data.includes(expected)))
-      .catch(assert.ifError);
+      .then(result => result.data.should.contain(expected))
+      .catch(should.not.throw);
   });
 
   it('should load indicated presets with options', () => {
@@ -76,8 +78,8 @@ describe('Plugin', function() {
     });
 
     return plugin.compile({data: content, path: 'file.js'})
-      .then(result => assert(result.data.includes(expected)))
-      .catch(assert.ifError);
+      .then(result => result.data.should.contain(expected))
+      .catch(should.not.throw);
   });
 
   it('should load indicated plugins', () => {
@@ -94,8 +96,8 @@ describe('Plugin', function() {
     });
 
     return plugin.compile({data: content, path: 'file.js'})
-      .then(result => assert(result.data.includes(expected)))
-      .catch(assert.ifError);
+      .then(result => result.data.should.contain(expected))
+      .catch(should.not.throw);
   });
 
   it('should load indicated plugins with options', () => {
@@ -112,8 +114,8 @@ describe('Plugin', function() {
     });
 
     return plugin.compile({data: content, path: 'file.js'})
-      .then(result => assert(result.data.includes(expected)))
-      .catch(assert.ifError);
+      .then(result => result.data.should.contain(expected))
+      .catch(should.not.throw);
   });
 
   describe('custom file extensions & patterns', () => {
@@ -140,16 +142,16 @@ describe('Plugin', function() {
     });
 
     it('should handle custom file extensions', () =>
-      basicPlugin.compile({data: content, path}).catch(assert.ifError)
+      basicPlugin.compile({data: content, path}).catch(should.not.throw)
     );
 
     it('should properly link to source file in source maps', () =>
       sourceMapPlugin.compile({data: content, path})
         .then(result => {
-          assert.doesNotThrow(() => JSON.parse(result.map));
-          assert(JSON.parse(result.map).sources.indexOf(path) !== -1);
+          JSON.parse(result.map).should.not.throw;
+          JSON.parse(result.map).sources.should.contain(path);
         })
-        .catch(assert.ifError)
+        .catch(should.not.throw)
     );
   });
 
@@ -163,15 +165,15 @@ describe('Plugin', function() {
     });
 
     return plugin.compile({data: content, path: 'file.js'})
-      .then(result => assert.doesNotThrow(() => JSON.parse(result.map)))
-      .catch(assert.ifError);
+      .then(result => JSON.parse(result.map).should.not.throw)
+      .catch(should.not.throw);
   });
 
   it('should pass through content of ignored paths', () => {
     const content = 'asdf';
 
     return plugin.compile({data: content, path: 'vendor/file.js'})
-      .then(result => assert.equal(content, result.data))
-      .catch(assert.ifError);
+      .then(result => result.data.should.be.equal(content))
+      .catch(should.not.throw);
   });
 });
