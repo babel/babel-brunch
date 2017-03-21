@@ -17,7 +17,7 @@ describe('Plugin', function() {
   );
 
   it('should have #compile method', () =>
-    plugin.compile.should.be.a('function')
+    plugin.should.respondTo('compile')
   );
 
   it('should do nothing for no preset', () => {
