@@ -1,7 +1,7 @@
 /* eslint-env mocha */
 'use strict';
 
-const should = require('chai').should();
+require('chai').should();
 const Plugin = require('./');
 
 describe('Plugin', function() {
@@ -11,10 +11,6 @@ describe('Plugin', function() {
   beforeEach(() => {
     plugin = new Plugin({paths: {root: '.'}});
   });
-
-  it('should be an object', () =>
-    should.exist(plugin)
-  );
 
   it('should have #compile method', () =>
     plugin.should.respondTo('compile')
@@ -31,8 +27,7 @@ describe('Plugin', function() {
     });
 
     return plugin.compile({data: content, path: 'file.js'})
-      .then(result => result.data.should.contain(content))
-      .catch(should.not.throw);
+      .then(result => result.data.should.contain(content));
   });
 
   it('should compile and produce valid result', () => {
@@ -40,8 +35,7 @@ describe('Plugin', function() {
     const expected = 'var a = c.a,\n    b = c.b;';
 
     return plugin.compile({data: content, path: 'file.js'})
-      .then(result => result.data.should.contain(expected))
-      .catch(should.not.throw);
+      .then(result => result.data.should.contain(expected));
   });
 
   it('should load indicated presets', () => {
@@ -56,8 +50,7 @@ describe('Plugin', function() {
     });
 
     return plugin.compile({data: content, path: 'file.js'})
-      .then(result => result.data.should.contain(expected))
-      .catch(should.not.throw);
+      .then(result => result.data.should.contain(expected));
   });
 
   it('should load indicated presets with options', () => {
@@ -78,8 +71,7 @@ describe('Plugin', function() {
     });
 
     return plugin.compile({data: content, path: 'file.js'})
-      .then(result => result.data.should.contain(expected))
-      .catch(should.not.throw);
+      .then(result => result.data.should.contain(expected));
   });
 
   it('should load indicated plugins', () => {
@@ -96,8 +88,7 @@ describe('Plugin', function() {
     });
 
     return plugin.compile({data: content, path: 'file.js'})
-      .then(result => result.data.should.contain(expected))
-      .catch(should.not.throw);
+      .then(result => result.data.should.contain(expected));
   });
 
   it('should load indicated plugins with options', () => {
@@ -114,8 +105,7 @@ describe('Plugin', function() {
     });
 
     return plugin.compile({data: content, path: 'file.js'})
-      .then(result => result.data.should.contain(expected))
-      .catch(should.not.throw);
+      .then(result => result.data.should.contain(expected));
   });
 
   describe('custom file extensions & patterns', () => {
@@ -142,19 +132,14 @@ describe('Plugin', function() {
     });
 
     it('should handle custom file extensions', () =>
-      basicPlugin.compile({data: content, path}).catch(should.not.throw)
+      basicPlugin.compile({data: content, path})
     );
 
     it('should properly link to source file in source maps', () =>
       sourceMapPlugin.compile({data: content, path})
-        .then(result => {
-          JSON.parse(result.map).should.not.throw;
-          JSON.parse(result.map).sources.should.contain(path);
-        })
-        .catch(should.not.throw)
+        .then(result => JSON.parse(result.map).sources.should.contain(path))
     );
   });
-
 
   it('should produce source maps', () => {
     const content = 'let a = 1';
@@ -165,15 +150,13 @@ describe('Plugin', function() {
     });
 
     return plugin.compile({data: content, path: 'file.js'})
-      .then(result => JSON.parse(result.map).should.not.throw)
-      .catch(should.not.throw);
+      .then(result => JSON.parse(result.map));
   });
 
   it('should pass through content of ignored paths', () => {
     const content = 'asdf';
 
     return plugin.compile({data: content, path: 'vendor/file.js'})
-      .then(result => result.data.should.be.equal(content))
-      .catch(should.not.throw);
+      .then(result => result.data.should.be.equal(content));
   });
 });
