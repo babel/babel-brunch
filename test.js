@@ -12,9 +12,9 @@ describe('Plugin', function() {
     plugin = new Plugin({paths: {root: '.'}});
   });
 
-  it('should have #compile method', () =>
-    plugin.should.respondTo('compile')
-  );
+  it('should have #compile method', () => {
+    plugin.should.respondTo('compile');
+  });
 
   it('should do nothing for no preset', () => {
     const content = 'var c = {};\nvar { a, b } = c;';
