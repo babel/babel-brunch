@@ -1,6 +1,5 @@
 'use strict';
 
-const path = require('path');
 const babel = require('babel-core');
 const anymatch = require('anymatch');
 const logger = require('loggy');
@@ -22,11 +21,10 @@ const prettySyntaxError = err => {
   return error;
 };
 
-const useUglify = pkgFile => {
+const targetUglify = () => {
   try {
-    const pkgPath = path.resolve(pkgFile);
     const isProduction = process.env.NODE_ENV === 'production';
-    const isUglify = 'uglify-js-brunch' in require(pkgPath).devDependencies;
+    const isUglify = require('uglify-js-brunch');
     if (isProduction && isUglify) return true;
   } catch (e) {
     return false;
@@ -57,7 +55,6 @@ class BabelCompiler {
       delete opts.pattern;
     }
 
-    this.packageConfig = config.paths.packageConfig;
     this.isIgnored = anymatch(options.ignore || reIg);
     this.options = opts;
   }
@@ -75,7 +72,7 @@ class BabelCompiler {
 
       if (!hasConfig) {
         this.options.presets = [['env', {
-          targets: useUglify(this.packageConfig) ? {uglify: true} : {},
+          targets: targetUglify() ? {uglify: true} : {},
         }]];
       }
     }
