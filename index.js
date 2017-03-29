@@ -2,22 +2,34 @@
 
 const babel = require('babel-core');
 const anymatch = require('anymatch');
-const resolve = require('path').resolve;
 const logger = require('loggy');
 
 const reIg = /^(bower_components|vendor)/;
 
 const warns = {
-  ES6to5: 'Please use `babel` instead of `ES6to5` option in your config file.'
+  ES6to5: 'Please use `babel` instead of `ES6to5` option in your config file.',
 };
 
-const prettySyntaxError = (err) => {
+const prettySyntaxError = err => {
   if (!(err._babel && err instanceof SyntaxError)) return err;
-  const msg = err.message.replace(/\(\d+:\d+\)$/, '').replace(/^([\./\w]+\:\s)/, '');
+  const msg = err.message
+    .replace(/\(\d+:\d+\)$/, '')
+    .replace(/^([./\w]+:\s)/, '');
   const error = new Error(`L${err.loc.line}:${err.loc.column} ${msg}\n${err.codeFrame}`);
   error.name = '';
   error.stack = err.stack;
   return error;
+};
+
+const targetUglify = () => {
+  try {
+    const isProduction = process.env.NODE_ENV === 'production';
+    const isUglify = require('uglify-js-brunch');
+    if (isProduction && isUglify) return true;
+    return false;
+  } catch (e) {
+    return false;
+  }
 };
 
 class BabelCompiler {
@@ -38,33 +50,12 @@ class BabelCompiler {
     }, {});
 
     opts.sourceMap = !!config.sourceMaps;
-    if (!opts.presets) {
-      opts.presets = ['latest'];
-      // ['env', opts.env]
-    }
-    if (!opts.plugins) opts.plugins = [];
 
-    // this is needed so that babel can locate presets when compiling node_modules
-    const mapOption = type => data => {
-      const resolvePath = name => {
-        // for cases when plugins name do not match common convention
-        // for example: `babel-root-import`
-        const plugin = name.startsWith('babel-') ? name : `babel-${type}-${name}`;
-        return resolve(config.paths.root, 'node_modules', plugin);
-      };
-      if (typeof data === 'string') return resolvePath(data);
-      return [resolvePath(data[0]), data[1]];
-    };
-    const mappedPresets = opts.presets.map(mapOption('preset'));
-    const mappedPlugins = opts.plugins.map(mapOption('plugin'));
-    opts.presets = mappedPresets;
-    opts.plugins = mappedPlugins;
-    if (opts.presets.length === 0) delete opts.presets;
-    if (opts.plugins.length === 0) delete opts.plugins;
     if (opts.pattern) {
       this.pattern = opts.pattern;
       delete opts.pattern;
     }
+
     this.isIgnored = anymatch(options.ignore || reIg);
     this.options = opts;
   }
@@ -73,6 +64,19 @@ class BabelCompiler {
     if (this.isIgnored(file.path)) return Promise.resolve(file);
     this.options.filename = file.path;
     this.options.sourceFileName = file.path;
+
+    if (!this.options.presets) {
+      const babelConfig = new babel.OptionManager().init(this.options);
+      const hasConfig =
+        babelConfig.presets && babelConfig.presets.length ||
+        babelConfig.plugins && babelConfig.plugins.length;
+
+      if (!hasConfig) {
+        this.options.presets = [['env', {
+          targets: targetUglify() ? {uglify: true} : {},
+        }]];
+      }
+    }
 
     return new Promise((resolve, reject) => {
       let compiled;
