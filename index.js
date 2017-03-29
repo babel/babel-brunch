@@ -26,6 +26,7 @@ const targetUglify = () => {
     const isProduction = process.env.NODE_ENV === 'production';
     const isUglify = require('uglify-js-brunch');
     if (isProduction && isUglify) return true;
+    return false;
   } catch (e) {
     return false;
   }
