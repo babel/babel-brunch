@@ -75,7 +75,7 @@ module.exports.plugins = {
 module.exports.plugins = {
   // ...
   babel: {
-    pattern: /\.es7$/ // By default, JS|JSX|ES6 are used.
+    pattern: /\.(js|vue)$/ // By default, JS|JSX|ES6 are used.
   }
 }
 ```
