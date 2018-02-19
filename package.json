@@ -28,13 +28,13 @@
     "index.js"
   ],
   "dependencies": {
+    "@babel/core": "^7.0.0-beta.40",
+    "@babel/preset-env": "^7.0.0-beta.40",
     "anymatch": "^1.0.0",
-    "babel-core": "^6.24.0",
-    "babel-preset-env": "^1.2.2",
     "loggy": "~1.0.1"
   },
   "devDependencies": {
-    "babel-plugin-transform-es2015-template-literals": "^6.8.0",
+    "@babel/plugin-transform-template-literals": "^7.0.0-beta.40",
     "babel-plugin-transform-node-env-inline": "^6.1.18",
     "chai": "^3.5.0",
     "eslint": "^3.17.1",
