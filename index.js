@@ -34,7 +34,6 @@ const targetUglify = () => {
 
 class BabelCompiler {
   constructor(config) {
-    console.log(JSON.stringify(config));
     if (!config) config = {};
     const pl = config.plugins;
     const options = pl && (pl.babel || pl.ES6to5) || {};

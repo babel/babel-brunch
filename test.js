@@ -137,10 +137,7 @@ describe('Plugin', function() {
 
     it('should properly link to source file in source maps', () =>
       sourceMapPlugin.compile({data: content, path})
-        .then(result => {
-          result.should.have.property('map');
-          JSON.parse(result.map).sources.should.contain(path);
-        })
+        .then(result => JSON.parse(result.map).sources.should.contain(path))
     );
   });
 
