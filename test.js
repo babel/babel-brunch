@@ -2,9 +2,9 @@
 'use strict';
 
 require('chai').should();
-const Plugin = require('./');
+const Plugin = require('.');
 
-describe('Plugin', function() {
+describe('babel-brunch', function() {
   let plugin;
   this.timeout(10000);
 
@@ -17,7 +17,7 @@ describe('Plugin', function() {
   });
 
   it('should do nothing for no preset', () => {
-    const content = 'var c = {};\nvar { a, b } = c;';
+    const content = 'var c = {};\nvar {\n  a,\n  b\n} = c;\n';
 
     plugin = new Plugin({
       paths: {root: '.'},
@@ -45,7 +45,7 @@ describe('Plugin', function() {
     plugin = new Plugin({
       paths: {root: '.'},
       plugins: {
-        babel: {presets: ['env']},
+        babel: {presets: ['@babel/env']},
       },
     });
 
@@ -62,7 +62,7 @@ describe('Plugin', function() {
       plugins: {
         babel: {
           presets: [
-            ['env', {
+            ['@babel/env', {
               modules: 'systemjs',
             }],
           ],
@@ -82,7 +82,7 @@ describe('Plugin', function() {
       paths: {root: '.'},
       plugins: {
         babel: {
-          plugins: ['transform-node-env-inline'],
+          plugins: ['babel-plugin-transform-node-env-inline'],
         },
       },
     });
@@ -93,13 +93,13 @@ describe('Plugin', function() {
 
   it('should load indicated plugins with options', () => {
     const content = '`var x = 1; test ${x}`';
-    const expected = 'String(x)';
+    const expected = '.concat(x)';
 
     plugin = new Plugin({
       paths: {root: '.'},
       plugins: {
         babel: {
-          plugins: [['transform-es2015-template-literals', {spec: true}]],
+          plugins: [['@babel/transform-template-literals', {spec: true}]],
         },
       },
     });
@@ -123,10 +123,10 @@ describe('Plugin', function() {
 
     const sourceMapPlugin = new Plugin({
       paths: {root: '.'},
+      sourceMaps: true,
       plugins: {
         babel: {
           pattern: /\.(babel|es6|jsx)$/,
-          sourceMaps: true,
         },
       },
     });

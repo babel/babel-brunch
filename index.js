@@ -1,14 +1,7 @@
 'use strict';
-
-const babel = require('babel-core');
+const babel = require('@babel/core');
 const anymatch = require('anymatch');
 const logger = require('loggy');
-
-const reIg = /^(bower_components|vendor)/;
-
-const warns = {
-  ES6to5: 'Please use `babel` instead of `ES6to5` option in your config file.',
-};
 
 const prettySyntaxError = err => {
   if (!(err._babel && err instanceof SyntaxError)) return err;
@@ -21,10 +14,10 @@ const prettySyntaxError = err => {
   return error;
 };
 
-const targetUglify = () => {
+const isUglifyTarget = () => {
   try {
     const isProduction = process.env.NODE_ENV === 'production';
-    const isUglify = require('uglify-js-brunch');
+    const isUglify = !!require('uglify-js-brunch');
     if (isProduction && isUglify) return true;
     return false;
   } catch (e) {
@@ -34,29 +27,28 @@ const targetUglify = () => {
 
 class BabelCompiler {
   constructor(config) {
-    if (!config) config = {};
     const pl = config.plugins;
     const options = pl && (pl.babel || pl.ES6to5) || {};
 
     if (pl && !pl.babel && pl.ES6to5) {
-      logger.warn(warns.ES6to5);
+      logger.warn('Please use `babel` instead of `ES6to5` option in your config file.');
     }
 
     const opts = Object.keys(options).reduce((obj, key) => {
-      if (key !== 'sourceMap' && key !== 'ignore') {
+      if (key !== 'sourceMaps' && key !== 'ignore') {
         obj[key] = options[key];
       }
       return obj;
     }, {});
 
-    opts.sourceMap = !!config.sourceMaps;
+    opts.sourceMaps = !!config.sourceMaps;
 
     if (opts.pattern) {
       this.pattern = opts.pattern;
       delete opts.pattern;
     }
 
-    this.isIgnored = anymatch(options.ignore || reIg);
+    this.isIgnored = anymatch(options.ignore || /^(bower_components|vendor)/);
     this.options = opts;
   }
 
@@ -72,8 +64,8 @@ class BabelCompiler {
         babelConfig.plugins && babelConfig.plugins.length;
 
       if (!hasConfig) {
-        this.options.presets = [['env', {
-          targets: targetUglify() ? {uglify: true} : {},
+        this.options.presets = [['@babel/env', {
+          targets: isUglifyTarget() ? {uglify: true} : {},
         }]];
       }
     }
@@ -102,7 +94,6 @@ class BabelCompiler {
 
 BabelCompiler.prototype.brunchPlugin = true;
 BabelCompiler.prototype.type = 'javascript';
-BabelCompiler.prototype.extension = 'js';
-BabelCompiler.prototype.pattern = /\.(es6|jsx?)$/;
+BabelCompiler.prototype.pattern = /\.(es6|jsx?)$/i;
 
 module.exports = BabelCompiler;
