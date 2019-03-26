@@ -1,6 +1,6 @@
 {
   "name": "babel-brunch",
-  "version": "7.0.0",
+  "version": "7.0.1",
   "description": "Brunch plugin to turn latest ECMAScript standard code into vanilla ES5 with no runtime required.",
   "author": "Elan Shanker",
   "license": "ISC",
