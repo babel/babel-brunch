@@ -4,7 +4,7 @@
 require('chai').should();
 const Plugin = require('.');
 
-describe('babel-brunch', function() {
+describe('babel-brunch', function suite() {
   let plugin;
   this.timeout(10000);
 
